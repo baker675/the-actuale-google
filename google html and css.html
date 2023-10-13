@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      background-color: white;
+      color: white;
+      position: relative;
+    }
+
+    img {
+      width: 30%;
+      display: block;
+      margin: 100px auto 20px;
+      min-width: 272px;
+      cursor: pointer;
+      background-color: black;
+    }
+
+    input {
+      box-sizing: border-box;
+      display: block;
+      border-radius: 24px;
+      border: 1px solid rgb(223, 225, 229);
+      height: 44px;
+      margin: 0 auto 20px;
+      max-width: 564px;
+      width: 90%;
+      padding-left: 30px;
+      font-size: 16px;
+    }
+
+    button {
+      box-sizing: border-box;
+      margin-top: 0;
+      padding: 0 16px;
+      font-size: 14px;
+      height: 36px;
+      background-color: #f8f9fa;
+      border: 1px solid #f8f9fa;
+      cursor: pointer;
+      display: inline-block;
+      margin-right: 10px;
+      border-radius: 24px;
+    }
+
+    /* Additional styles for the login form */
+    #login-form, #registration-page {
+      text-align: center;
+    }
+
+    /* Styles for the fake registration page */
+    #registration-page {
+      display: none;
+      padding: 20px;
+      background-color: #f8f9fa;
+      border-radius: 24px;
+    }
+
+    /* Black text for the registration page */
+    #registration-page label, #registration-page h2 {
+      color: black;
+    }
+
+    /* Hidden by default */
+    .file-upload {
+      display: none;
+    }
+
+    /* Style the file upload button */
+    .upload-btn {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 24px;
+    }
+
+    /* Styles for the profile picture bubble */
+    #profileBubble {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background-color: #f8f9fa;
+      border: 1px solid #f8f9fa;
+      overflow: hidden;
+      display: none;
+    }
+
+    #profilePicture {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Black color for the login heading */
+    #login-form h2 {
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <a href="https://www.google.com">
+    <img src="google.png" width="100%">
+  </a>
+  <div id="login-form">
+    <h2>Login to Access Google</h2>
+    <input type="text" id="loginEmailInput" placeholder="Email">
+    <input type="password" id "loginPasswordInput" placeholder="Password">
+    <button id="loginButton">Login</button>
+    <button id="showCreateAccountForm">Create Account</button>
+  </div>
+  <div id="profileBubble">
+    <img id="profilePicture" src="default-profile-picture.jpg" alt="Profile Picture">
+  </div>
+  <div id="registration-page">
+    <h2 style="color: black;">Create an Account</h2>
+    <input type="text" id="fullNameInput" placeholder="Full Name">
+    <label for="dateOfBirthInput">Date of Birth:</label>
+    <select id="dateOfBirthInput">
+      <option value="January">January</option>
+      <option value="February">February</option>
+      <option value="March">March</option>
+      <!-- Add more months here -->
+    </select>
+    <input type="text" id="fakeEmailInput" placeholder="Fake Email">
+    <input type="password" id="fakePasswordInput" placeholder="Fake Password">
+    <label for="imageUpload" class="upload-btn">Upload Profile Picture</label>
+    <input type="file" id="imageUpload" class="file-upload">
+    <button id="createAccountButton">Create Account</button>
+  </div>
+  <div id="buttons" style="display: none;">
+    <input type="text" id="searchInput">
+    <button id="searchButton">Search Google</button>
+    <button id="feelingLuckyButton">I'm Feeling Lucky</button>
+  </div>
+
+  <script>
+    // JavaScript for switching between login and account creation forms
+    const loginForm = document.getElementById('login-form');
+    const registrationPage = document.getElementById('registration-page');
+    const showCreateAccountForm = document.getElementById('showCreateAccountForm');
+    const loginButton = document.getElementById('loginButton');
+    const createAccountButton = document.getElementById('createAccountButton');
+    const profileBubble = document.getElementById('profileBubble');
+    const profilePicture = document.getElementById('profilePicture');
+    const imageUpload = document.getElementById('imageUpload');
+    const searchButton = document.getElementById('searchButton');
+    const feelingLuckyButton = document.getElementById('feelingLuckyButton');
+    const buttons = document.getElementById('buttons');
+    const searchInput = document.getElementById('searchInput');
+
+    showCreateAccountForm.addEventListener('click', () => {
+      loginForm.style.display = 'none';
+      registrationPage.style.display = 'block';
+    });
+
+    loginButton.addEventListener('click', () => {
+      loginSuccess();
+    });
+
+    createAccountButton.addEventListener('click', () => {
+      accountCreationSuccess();
+    });
+
+    searchButton.addEventListener('click', () => {
+      const query = searchInput.value;
+      if (query.trim() !== '') {
+        window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+      }
+    });
+
+    feelingLuckyButton.addEventListener('click', () => {
+      window.location.href = 'https://www.calculator.net/dice-roller.html';
+    });
+
+    function loginSuccess() {
+      loginForm.style.display = 'none';
+      buttons.style.display = 'block';
+      searchInput.style.display = 'block';
+      searchButton.style.display = 'inline-block';
+      feelingLuckyButton.style.display = 'inline-block';
+    }
+
+    function accountCreationSuccess() {
+      registrationPage.style.display = 'none';
+      buttons.style.display = 'block';
+      searchInput.style.display = 'block';
+      searchButton.style.display = 'inline-block';
+      feelingLuckyButton.style.display = 'inline-block';
+
+      const file = imageUpload.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          profilePicture.src = e.target.result;
+          profileBubble.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  </script>
+</body>
+</html>
